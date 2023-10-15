@@ -1,0 +1,39 @@
+extends ../../layout/default.pug
+
+block main
+    div(class="p-2 mb-2 bg-info text-white") 
+        h2 Product Detail
+    div(class="border border-secondary") 
+        if(product.title)
+            h3(class="mb-4 mt-4 ml-4") #{product.title}
+        
+        if(product.price)
+            div(class="mb-4 ml-4") Price: <b>#{product.price}</b>$
+        
+        if(product.discountPercentage)
+            div(class="mb-4 ml-4") Discount: <b>#{product.discountPercentage}</b>
+
+        if(product.stock)
+            div(class="mb-4 ml-4") Discount: <b>#{product.stock}</b>
+
+        if (product.thumbnail)
+            div(class="mb-4 ml-4")
+            img(
+                class="ml-4 mb-4 rounded-sm"
+                src=product.thumbnail
+                style="width: 300px"
+            )
+
+        if (product.status)
+            div(class="mb-4 ml-4")
+                span Filter: 
+                if (product.status === "active")
+                    span(class="badge badge-success") Active
+                else
+                    span(class="badge badge-danger") Inctive
+
+        if (product.position)
+            div(class="mb-4 ml-4") Position: <b>#{product.position}</b>
+
+        if (product.description)
+            div(class="mb-4 ml-4 mr-1") Description: #{product.description}
