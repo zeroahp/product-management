@@ -150,10 +150,10 @@ module.exports.createProduct = async(req,res) => {
     }
 
     // console.log(req); // có chưa thông tin file { filename, thumbnail..}
-    if(req.file && req.file.filename){
-        req.body.thumbnail = `/uploads/${req.file.filename}`
-    }
-    
+    // if(req.file && req.file.filename){
+    //     req.body.thumbnail = `/uploads/${req.file.filename}`
+    // }
+    req.flash('success', `Create status success!`);
     const product = new Product(req.body);
     await product.save();
     res.redirect(`/${systemConfig.prefixAdmin}/products`);
@@ -178,7 +178,6 @@ module.exports.edit = async (req, res) => {
     } catch (error) {
         req.flash('error', `Not found!`);
         res.redirect(`/${systemConfig.prefixAdmin}/products`);
-        
     }
 }
 
@@ -189,19 +188,18 @@ module.exports.editProduct = async(req,res) => {
     req.body.position = parseInt(req.body.position);
 
     // console.log(req); // có chưa thông tin file { filename, thumbnail..}
-    if(req.file && req.file.filename){
-        req.body.thumbnail = `/uploads/${req.file.filename}`
-    }
+    // if(req.file && req.file.filename){
+    //     req.body.thumbnail = `/uploads/${req.file.filename}`
+    // }
     const id = req.params.id;
     
     await Product.updateOne(
         {_id: id},
         req.body
     )
+
     req.flash('success', `Update status success!`);
-
     res.redirect(`/${systemConfig.prefixAdmin}/products`);
-
 
 }
 //End edit
