@@ -229,3 +229,43 @@ if(upload){
     
 }
 // End image preview
+
+//Sort
+const sort = document.querySelector("[sort]");
+if(sort){
+    let url = new URL(window.location.href);
+
+    const sortSelect = sort.querySelector("[sort-select]");
+    const sortClear = sort.querySelector("[sort-clear]");
+    
+    //sap xep
+    sortSelect.addEventListener("change", (e) => {
+        const value =  e.target.value;
+        const [sortKey, sortValue] = value.split("-");
+        
+        url.searchParams.set("sortKey", sortKey);
+        url.searchParams.set("sortValue", sortValue);
+
+        window.location.href = url.href;
+    })
+    
+    //Hien thi
+    const sortkey = url.searchParams.get("sortKey");
+    const sortvalue = url.searchParams.get("sortValue");
+
+    if(sortkey && sortvalue){
+        const stringSort = `${sortkey}-${sortvalue}`;
+        const compareSort = sortSelect.querySelector(`option[value="${stringSort}"]`);
+        compareSort.selected = true;
+    }
+
+    //Clear
+    sortClear.addEventListener("click", () => {
+        url.searchParams.delete("sortKey");
+        url.searchParams.delete("sortValue");
+
+        window.location.href = url.href;
+    })
+}
+
+//End Sort

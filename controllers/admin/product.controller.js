@@ -7,63 +7,70 @@ const systemConfig = require("../../config/system")
 //[GET] /admin/products
 //              tên
 module.exports.index = async(req, res) => {
-    //req.query.status yeu cau tu user ?status=active
+    
+        //req.query.status yeu cau tu user ?status=active
 
     //mixin-filter-status
     const filterStatus = filterStatusHelpers(req.query);    
-   //search : mixin-findkeyword
-   let objectSearch = objectSearchHelpers(req.query)
-
-    const find = {
-        deleted : false
-    }
-
-    if(req.query.status){
-        find.status =req.query.status;
-    }
-
+    //search : mixin-findkeyword
+    let objectSearch = objectSearchHelpers(req.query)
  
-    // console.log(objectSearch);
-
-    if(req.query.keyword){
-        // keyword =req.query.keyword;
-        // const regex = new RegExp(keyword, "i");
-        find.title = objectSearch.regex;
+     const find = {
+         deleted : false
+     }
+ 
+     if(req.query.status){
+         find.status =req.query.status;
+     }
+ 
+     if(req.query.keyword){
+         // keyword =req.query.keyword;
+         // const regex = new RegExp(keyword, "i");
+         find.title = objectSearch.regex;
+     }
+ 
+     //pagination
+     //count product
+     const countProducts = await Product.count(find);
+ 
+     const objectPagination = objectPaginationHelpers(req.query, countProducts);
+     //End pagination
+ 
+     //sort
+     const sort = {};
+     
+    if(req.query.sortKey && req.query.sortValue){
+        sort[req.query.sortKey] = req.query.sortValue;
+    }else{
+        sort.position ="asc";
     }
-
-    //pagination
-    //count product
-    const countProducts = await Product.count(find);
-
-    const objectPagination = objectPaginationHelpers(req.query, countProducts);
+     //End sort
+     const products = await Product.find(find)
+       .sort(sort)
+       .limit(objectPagination.limitItems)
+       .skip(objectPagination.skip);
+     
+     if(products.length > 0){
+         res.render("admin/page/products/index.pug", {
+             pageTitle: "Danh sách sản phẩm",
+             products : products,
+             filterStatus : filterStatus,
+             keyword : objectSearch.keyword,
+             pagination : objectPagination,
+         })
+     }else {
+         let stringQuery = "";
+ 
+         for(const key in req.query){
+             if(key != "page"){
+                 stringQuery = `&${key}=${req.query[key]}`;
+             }
+         }
+ 
+         const href = `${req.baseUrl}?page=1&${stringQuery}`
+         res.redirect(href);
+     }
     
-    const products = await Product.find(find)
-      .sort({position: "asc"})
-      .limit(objectPagination.limitItems)
-      .skip(objectPagination.skip);
-    //End pagination
-
-    
-    if(products.length > 0){
-        res.render("admin/page/products/index.pug", {
-            pageTitle: "Danh sách sản phẩm",
-            products : products,
-            filterStatus : filterStatus,
-            keyword : objectSearch.keyword,
-            pagination : objectPagination,
-        })
-    }else {
-        let stringQuery = "";
-
-        for(const key in req.query){
-            if(key != "page"){
-                stringQuery = `&${key}=${req.query[key]}`;
-            }
-        }
-
-        const href = `${req.baseUrl}?page=1&${stringQuery}`
-        res.redirect(href);
-    }
 }
 
 // [PATCH] /admin/products/change-status/:status/:id
@@ -149,10 +156,6 @@ module.exports.createProduct = async(req,res) => {
         req.body.position = parseInt(req.body.position);
     }
 
-    // console.log(req); // có chưa thông tin file { filename, thumbnail..}
-    // if(req.file && req.file.filename){
-    //     req.body.thumbnail = `/uploads/${req.file.filename}`
-    // }
     req.flash('success', `Create status success!`);
     const product = new Product(req.body);
     await product.save();
@@ -187,12 +190,7 @@ module.exports.editProduct = async(req,res) => {
     req.body.stock = parseInt(req.body.stock);
     req.body.position = parseInt(req.body.position);
 
-    // console.log(req); // có chưa thông tin file { filename, thumbnail..}
-    // if(req.file && req.file.filename){
-    //     req.body.thumbnail = `/uploads/${req.file.filename}`
-    // }
-    const id = req.params.id;
-    
+    const id = req.params.id;  
     await Product.updateOne(
         {_id: id},
         req.body
@@ -223,6 +221,6 @@ module.exports.detail = async (req, res) => {
         res.redirect(`/${systemConfig.prefixAdmin}/products`);  
     }
 }
-
-
 //End detail
+
+

@@ -5,6 +5,7 @@ include ../../mixins/search.pug
 include ../../mixins/pagination.pug
 include ../../mixins/change-multi.pug
 include ../../mixins/alert.pug
+include ../../mixins/sort.pug
 
 block main
     +alert-success(3000)
@@ -20,6 +21,12 @@ block main
                     +filter-status(filterStatus)
                 .col-6
                     +search(keyword)
+    .card.mb-3
+        .card-header Sắp xếp
+        .card-body
+            .row
+                .col-4
+                    +sort()
     .card.mb-3
         .card-header Option
         .card-body
