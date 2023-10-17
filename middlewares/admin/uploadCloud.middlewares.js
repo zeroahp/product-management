@@ -8,7 +8,8 @@ cloudinary.config({
 });
 
 module.exports.uploadClound = (req, res, next) => {
-    let streamUpload = (req) => {
+    if(req.file){
+      let streamUpload = (req) => {
         return new Promise((resolve, reject) => {
             let stream = cloudinary.uploader.upload_stream(
               (error, result) => {
@@ -24,13 +25,16 @@ module.exports.uploadClound = (req, res, next) => {
         });
     };
 
-    async function upload(req) {
-        let result = await streamUpload(req);
-        // console.log(req.file);
-        req.body[req.file.fieldname] = result.url;
-        // console.log(result);
-        next();
-    }
+      async function upload(req) {
+          let result = await streamUpload(req);
+          // console.log(req.file);
+          req.body[req.file.fieldname] = result.url;
+          // console.log(result);
+          next();
+      }
 
-    upload(req);  
+      upload(req);
+    } else {
+      next();
+    }
 }

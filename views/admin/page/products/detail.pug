@@ -36,4 +36,5 @@ block main
             div(class="mb-4 ml-4") Position: <b>#{product.position}</b>
 
         if (product.description)
-            div(class="mb-4 ml-4 mr-1") Description: #{product.description}
+            div(class="mb-4 ml-4 mr-1") Description: !{product.description}
+            //- dấu "!" để hiển thị được tinymce

@@ -4,8 +4,6 @@ const router = express.Router();
 const multer  = require('multer')
 const controller = require("../../controllers/admin/product.controller");
 
-
-
 //Middlewares upload
 const uploadClound = require('../../middlewares/admin/uploadCloud.middlewares');
 
@@ -30,7 +28,7 @@ router.get("/create", controller.create);
 
 router.post(
     "/create", 
-    upload.single('thumbnail'), 
+    upload.single('thumbnail'),
     uploadClound.uploadClound, 
     validate.checkError,
     controller.createProduct

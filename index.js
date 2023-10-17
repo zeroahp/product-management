@@ -1,5 +1,8 @@
 //nhúng thư viện Express
 const express = require('express');
+
+const path = require('path');
+
 //[GET] => [Patch]
 // override with POST having ?_method=PATCH
 const methodOverride = require('method-override')
@@ -41,6 +44,13 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser('KWJFKWEIFHW'));
 app.use(session({ cookie: { maxAge: 60000 }}));
 app.use(flash());
+
+//tinymce
+app.use(
+    '/tinymce', 
+    express.static(path.join(__dirname, 'node_modules', 'tinymce'))
+);
+//end tinymce
 
 //variable local
 app.locals.prefixAdmin = systemConfig.prefixAdmin;

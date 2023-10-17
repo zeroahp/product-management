@@ -24,7 +24,8 @@
     "mongoose-slug-updater": "^3.3.0",
     "multer": "^1.4.5-lts.1",
     "pug": "^3.0.2",
-    "streamifier": "^0.1.1"
+    "streamifier": "^0.1.1",
+    "tinymce": "^6.7.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"

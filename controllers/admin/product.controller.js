@@ -195,7 +195,7 @@ module.exports.editProduct = async(req,res) => {
         {_id: id},
         req.body
     )
-
+    console.log(req.file);
     req.flash('success', `Update status success!`);
     res.redirect(`/${systemConfig.prefixAdmin}/products`);
 
