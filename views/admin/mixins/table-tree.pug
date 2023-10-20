@@ -1,0 +1,52 @@
+mixin table-tree(items, level = 1)
+  each item, index in items
+    - const prefix = Array(level + 1).join("-- ")
+        tr 
+            td #{item.index}
+            td 
+                img(
+                    src=item.thumbnail
+                    alt=item.title
+                    width="100px"
+                    height="auto"
+                )
+            td #{prefix}#{item.title}
+            td 
+                input(
+                    type="number"
+                    style="width: 50px"
+                    height="auto"
+                    value=item.position
+                    name="positon"
+                )
+            td
+                if(item.status == "active")
+                    button(
+                        class="badge badge-success"
+                        button-change-status 
+                        data-status = item.status
+                        data-id = item.id
+                    ) Active
+                else
+                    button(
+                        class="badge badge-danger"
+                        button-change-status 
+                        data-status = item.status
+                        data-id = item.id
+                    ) Inactive
+            td
+                a(
+                    href=`/${prefixAdmin}/products/detail/${item.id}`
+                    class="btn btn-info btn-sm"
+                ) Detail
+                a(
+                    href=`/${prefixAdmin}/products/edit/${item.id}`
+                    class="btn btn-warning btn-sm"
+                ) Edit
+                button(
+                    class="btn btn-danger btn-sm ml-1"
+                    button-delete
+                    data-id=item.id
+                ) Delete
+        if item.children && item.children.length > 0
+            +table-tree(item.children, level + 1)

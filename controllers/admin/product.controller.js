@@ -8,7 +8,7 @@ const systemConfig = require("../../config/system")
 //              tên
 module.exports.index = async(req, res) => {
     
-        //req.query.status yeu cau tu user ?status=active
+    //req.query.status yeu cau tu user ?status=active
 
     //mixin-filter-status
     const filterStatus = filterStatusHelpers(req.query);    
@@ -51,13 +51,13 @@ module.exports.index = async(req, res) => {
        .skip(objectPagination.skip);
      
      if(products.length > 0){
-         res.render("admin/page/products/index.pug", {
-             pageTitle: "Danh sách sản phẩm",
-             products : products,
-             filterStatus : filterStatus,
-             keyword : objectSearch.keyword,
-             pagination : objectPagination,
-         })
+        res.render("admin/page/products/index.pug", {
+            pageTitle: "Danh sách sản phẩm",
+            products : products,
+            filterStatus : filterStatus,
+            keyword : objectSearch.keyword,
+            pagination : objectPagination,
+        })
      }else {
          let stringQuery = "";
  
