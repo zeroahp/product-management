@@ -1,0 +1,33 @@
+extends ../../layout/default.pug
+include ../../mixins/table-tree.pug
+
+
+block main
+  h1(class="mb-4") Thêm mới nhóm quyền
+
+  form(
+    action=`/${prefixAdmin}/role/create`
+    method="POST"
+  )
+    div(class="form-group")
+      label(for="title") Tiêu đề
+      input(
+        type="text"
+        class="form-control"
+        id="title"
+        name="title"
+        required
+      )
+    div(class="form-group")
+      label(for="desc") Mô tả
+      input(
+        type="text"
+        class="form-control"
+        id="desc"
+        name="description"
+      )
+    div(class="form-group")
+      button(
+        type="submit"
+        class="btn btn-primary"
+      ) Tạo mới

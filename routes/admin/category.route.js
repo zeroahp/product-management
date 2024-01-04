@@ -21,5 +21,17 @@ router.post("/create",
     controller.createPost
 );
 
+//edit
+router.get("/edit/:id", controller.edit);
+
+router.patch("/edit/:id",
+    upload.single('thumbnail'), 
+    uploadClound.uploadClound,
+    controller.editProduct
+  );
+//End edit
+
+router.delete("/delete/:id", controller.deleteCategory);
+
 
 module.exports = router;

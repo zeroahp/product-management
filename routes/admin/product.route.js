@@ -7,9 +7,6 @@ const controller = require("../../controllers/admin/product.controller");
 //Middlewares upload
 const uploadClound = require('../../middlewares/admin/uploadCloud.middlewares');
 
-// const storagMulterHelper = require("../../helpers/storageMulter");
-// const storage = storagMulterHelper();
-
 //save thumbnail
 const upload = multer()
 const validate = require("../../validates/admin/product.validates");

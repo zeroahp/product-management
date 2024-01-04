@@ -6,139 +6,162 @@ include ../../mixins/pagination.pug
 include ../../mixins/change-multi.pug
 include ../../mixins/alert.pug
 include ../../mixins/sort.pug
+include ../../mixins/moment.pug
 
 block main
-    +alert-success(3000)
-    +alert-error(3000)
-    
-    h2 Product List
+    if(role.permission.includes("products_view"))
 
-    .card.mb-3 
-        .card-header Filters and Search
-        .card-body
-            .row
-                .col-6
-                    +filter-status(filterStatus)
-                .col-6
-                    +search(keyword)
-    .card.mb-3
-        .card-header Sắp xếp
-        .card-body
-            .row
-                .col-4
-                    +sort()
-    .card.mb-3
-        .card-header Option
-        .card-body
-            .row 
-                .col-8
-                    +changeMultil(`/${prefixAdmin}/products/change-multi?_method=PATCH`)
-                .col-4
-                    a(
-                        href=`/${prefixAdmin}/products/create`
-                        class="btn btn-outline-success"
-                    ) + Add Product
-    table(
-        checkbox-multi
-        class="table table-hover table-sm "
-    )
-        thead 
-            tr 
-                th
-                    input(type="checkbox" name="checkall")
-                th No
-                th Picture
-                th Title
-                th Price
-                th Discount
-                th Position
-                th Filter
-                th Action
+        +alert-success(3000)
+        +alert-error(3000)
         
-        tbody
-            if(products.length > 0)
-                each item, index in products
-                    tr 
-                        td
-                            input(
-                            type="checkbox"
-                            name="id"
-                            value=item.id
-                            )
-                        td #{pagination.limitItems*(pagination.currentPage - 1) + (index+1)}
-                        td 
-                            img(
-                                src=item.thumbnail
-                                alt=item.title
-                                width="100px"
-                                height="auto"
-                            )
-                        td #{item.title}
-                        td #{item.price}$
-                        td 
-                            p(
-                                class="discountPercentage"
-                        
-                                style="font-size: 14px; background-color: grey; color: white; text-align: center; border-radius:5px"
-                            ) #{item.discountPercentage}%
-                        td 
-                            input(
-                                type="number"
-                                style="width: 50px"
-                                height="auto"
-                                value=item.position
-                                name="positon"
-                            )
-                        td
-                            if(item.status == "active")
-                                button(
-                                    class="badge badge-success"
-                                    button-change-status 
-                                    data-status = item.status
-                                    data-id = item.id
-                                ) Active
-                            else
-                                button(
-                                    class="badge badge-danger"
-                                    button-change-status 
-                                    data-status = item.status
-                                    data-id = item.id
-                                ) Inactive
-                        td
-                            a(
-                                href=`/${prefixAdmin}/products/detail/${item.id}`
-                                class="btn btn-info btn-sm"
-                            ) Detail
-                            a(
-                                href=`/${prefixAdmin}/products/edit/${item.id}`
-                                class="btn btn-warning btn-sm"
-                            ) Edit
-                            button(
-                                class="btn btn-danger btn-sm ml-1"
-                                button-delete
-                                data-id=item.id
-                            ) Delete
-            else
-                tr
-                    td(
-                        colspan="7"
-                        class="text-center"
+        h2 Product List
 
-                    ) Chưa có sản phẩm nào.
+        .card.mb-3 
+            .card-header Filters and Search
+            .card-body
+                .row
+                    .col-6
+                        +filter-status(filterStatus)
+                    .col-6
+                        +search(keyword)
+        .card.mb-3
+            .card-header Sắp xếp
+            .card-body
+                .row
+                    .col-4
+                        +sort()
+        .card.mb-3
+            .card-header Option
+            .card-body
+                .row 
+                    .col-8
+                        +changeMultil(`/${prefixAdmin}/products/change-multi?_method=PATCH`)
+                    .col-4
+                        if(role.permission.includes("products_create"))
+                            a(
+                                href=`/${prefixAdmin}/products/create`
+                                class="btn btn-outline-success"
+                            ) + Add Product
+                        else    
+                            h1 You are not permission
+        table(
+            checkbox-multi
+            class="table table-hover table-sm "
+        )
+            thead 
+                tr 
+                    th
+                        input(type="checkbox" name="checkall")
+                    th No
+                    th Picture
+                    th Title
+                    th Price
+                    th Discount
+                    th Position
+                    th Filter
+                    th Create By
+                    th Update By
+                    th Action
             
-    form(
-        id="form-change-status"
-        method="POST"
-        action="" 
-        data-path=`/${prefixAdmin}/products/change-status/`
-    )
+            tbody
+                if(products.length > 0)
+                    each item, index in products
+                        tr 
+                            td
+                                input(
+                                type="checkbox"
+                                name="id"
+                                value=item.id
+                                )
+                            td #{pagination.limitItems*(pagination.currentPage - 1) + (index+1)}
+                            td 
+                                img(
+                                    src=item.thumbnail
+                                    alt=item.title
+                                    width="100px"
+                                    height="auto"
+                                )
+                            td #{item.title}
+                            td #{item.price}$
+                            td 
+                                p(
+                                    class="discountPercentage"
+                            
+                                    style="font-size: 14px; background-color: grey; color: white; text-align: center; border-radius:5px"
+                                ) #{item.discountPercentage}%
+                            td 
+                                input(
+                                    type="number"
+                                    style="width: 50px"
+                                    height="auto"
+                                    value=item.position
+                                    name="positon"
+                                )
+                            td
+                                if(item.status == "active")
+                                    button(
+                                        class="badge badge-success"
+                                        button-change-status 
+                                        data-status = item.status
+                                        data-id = item.id
+                                    ) Active
+                                else
+                                    button(
+                                        class="badge badge-danger"
+                                        button-change-status 
+                                        data-status = item.status
+                                        data-id = item.id
+                                    ) Inactive
+                            td 
+                                if(item.createBy.account_fullName)
+                                    div #{item.createBy.account_fullName}
+                                    div 
+                                        +formatDateTime(item.createBy.createAt)
+                            td 
+                                if(item.updatedBy.account_fullName)
+                                    div #{item.updatedBy.account_fullName}
+                                    div 
+                                        +formatDateTime(item.updatedBy.updatedAt)
+                            td
+                                a(
+                                    href=`/${prefixAdmin}/products/detail/${item.id}`
+                                    class="btn btn-info btn-sm"
+                                ) Detail
+                                if(role.permission.includes("products_edit"))
+                                    a(
+                                        href=`/${prefixAdmin}/products/edit/${item.id}`
+                                        class="btn btn-warning btn-sm"
+                                    ) Edit
+                                if(role.permission.includes("products_delete"))
+                                    button(
+                                        class="btn btn-danger btn-sm ml-1"
+                                        button-delete
+                                        data-id=item.id
+                                    ) Delete
+                else
+                    tr
+                        td(
+                            colspan="7"
+                            class="text-center"
 
-    form(
-        id="form-delete-item"
-        method="POST"
-        action="" 
-        data-path=`/${prefixAdmin}/products/delete`
-    )
-    
-    //- div #{pagination.currentPage}
-    +pagination(pagination)
+                        ) Chưa có sản phẩm nào.
+                
+        form(
+            id="form-change-status"
+            method="POST"
+            action="" 
+            data-path=`/${prefixAdmin}/products/change-status/`
+        )
+
+        form(
+            id="form-delete-item"
+            method="POST"
+            action="" 
+            data-path=`/${prefixAdmin}/products/delete`
+        )
+        
+        //- div #{pagination.currentPage}
+        +pagination(pagination)
+
+    else 
+        h1 You are not permission!

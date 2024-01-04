@@ -1,15 +1,66 @@
+include ../mixins/sub-menu.pug
+
 header.header 
     .container 
         .row.align-item-center 
-            .col-3 
-                .inner-logo 
-                    a(href="/")
-                        img(src="/image/logo.svg", alt="logo")
-            .col-9  
-                .inner-menu 
-                    ul 
+            .col-2
+              .inner-logo 
+                  a(href="/")
+                      img(src="/image/logo.svg.png", alt="logo", width="100px")
+
+            .col-3
+              form(
+                action="/search"
+                method="GET"
+              )
+                div(class="form-group d-flex mb-0")
+                  input(
+                    type="text"
+                    placeholder="Search..."
+                    class="form-control"
+                    name="keyword"
+                    value=keyword
+                  )
+                  button(
+                    type="submit"
+                    class="btn btn-dark"
+                  ) 
+                    i.fa-solid.fa-magnifying-glass
+            .col-7
+              .inner-menu 
+                  ul 
+                    li 
+                      a(href="/") Trang Chủ
+                    li(class="sub-menu")
+                      - const pathproduct = "/products"
+                      a(href=pathproduct) Sản phẩm
+                      if(layoutCategory)
+                        +sub-menu(layoutCategory, pathproduct)
+               
+                    li 
+                      a(href='/cart')
+                        i.fa-solid.fa-cart-shopping
+                      if(!user)
+                        |
+                      else 
+                        span  (#{miniCart && miniCart.totalQuantity ? miniCart.totalQuantity : "0"})
+ 
+                    if(user)
                       li 
-                        a(href="/") Trang Chủ
+                        a(href="/user/info" class="btn") #{user.fullName}
                       li 
-                        a(href="/products") Sản phẩm
+                        a(href="/chat" class="btn") 
+                          i.fa-solid.fa-message
+                    
+                      li 
+                        a(href="/user/logout" class="btn btn-info") Logout
+               
+                    else 
+                      li 
+                        a(href="/user/register" class="btn btn-info") Register
+
+                      li 
+                        a(href="/user/login" class="btn btn-info") Login
     
+
+                    

@@ -1,0 +1,11 @@
+extends ../../Layout/default.pug 
+include ../../mixins/box-head.pug
+include ../../mixins/product-layout.pug
+block main
+  .container.my-3
+    .row
+      .col-12
+        .box-head
+          +box-head("Profile")
+
+        p #{user}

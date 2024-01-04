@@ -1,4 +1,23 @@
 extends ../../Layout/default.pug 
+include ../../mixins/box-head.pug
+include ../../mixins/product-layout.pug
+include ../../mixins/alert.pug
 
 block main
-    h1 HOME
+    +alert-success(4000)
+
+    .section-products-feature.my-5 
+        .container 
+            .row    
+                .col-12 
+                    +box-head("Feature Product")
+
+            +product-grid(productsFeatured)
+
+    .section-products-new.my-5 
+        .container 
+            .row    
+                .col-12 
+                    +box-head("New Product")
+
+            +product-grid(newProduct)

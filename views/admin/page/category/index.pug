@@ -2,30 +2,34 @@ extends ../../layout/default.pug
 include ../../mixins/table-tree.pug
 
 block main 
-    h1(class="mb-4") Trang Danh Mục Sản Phẩm
+    if(role.permission.includes("products-category_view"))
 
-    //- div #{record}
-    .card.mb-3 
-        .card-header List
-        .card-body
-            .row
-                .col-6
-                .col-4.text-right 
-                    a(
-                        href=`/${prefixAdmin}/category/create`
-                        class="btn btn-outline-success"
-                    ) + Thêm mới
+        h1(class="mb-4") Trang Danh Mục Sản Phẩm
 
-    table(class="table table-hover table-sm ")
-        thead 
-            tr 
-                th No
-                th Picture
-                th Title
-                th Position
-                th Filter
-                th Action
-        
-        tbody
-            +table-tree(record)
+        //- div #{record}
+        .card.mb-3 
+            .card-header List
+            .card-body
+                .row
+                    .col-6
+                    .col-4.text-right 
                         
+                        if(role.permission.includes("products-category_create"))
+                            a(
+                                href=`/${prefixAdmin}/category/create`
+                                class="btn btn-outline-success"
+                            ) + Thêm mới
+
+        table(class="table table-hover table-sm ")
+            thead 
+                tr 
+                    th No
+                    th Picture
+                    th Title
+                    th Position
+                    th Filter
+                    th Action
+            
+            tbody
+                +table-tree(record)
+                            

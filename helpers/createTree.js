@@ -11,7 +11,7 @@ function createTree(arr, parentId = ""){
             const children = createTree(arr, item.id);
             if(children.length > 0){
                 newItem.children = children
-            }
+            } 
             tree.push(newItem);
         }
     });

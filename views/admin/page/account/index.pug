@@ -1,0 +1,74 @@
+extends ../../layout/default.pug
+include ../../mixins/alert.pug
+
+block main 
+    if(role.permission.includes("account_view"))
+
+      +alert-success(3000)
+
+      h1(class="mb-4") Tài khoản
+
+      .card.mb-3
+        .card-header List
+        .card-body
+          .row
+            .col-8
+            .col-4.text-right
+                a(
+                  href=`/${prefixAdmin}/account/create`
+                  class="btn btn-outline-success mb-20"
+                ) + Add new
+
+          table(
+            class="table table-hover table-sm"
+          )
+            thead
+              tr(class='mid-pos')
+                th No
+                th Avatar
+                th Full name
+                th Permissions
+                th Email
+                th Status
+                th Action
+
+            tbody
+              each record, index in records
+                tr
+                  td(class='text-center align-middle') #{index+1}
+                  td(class='text-center align-middle')
+                    img(
+                      src=record.avatar
+                      alt=record.fullName
+                      width="100px"
+                      height="auto"
+                    )
+                  td(class='text-center align-middle') #{record.fullName}
+                  td(class='text-center align-middle') #{record.role.title}
+                  td(class='text-center align-middle') #{record.email}
+                  td(class='text-center align-middle')
+                    if (record.status === "active")
+                      a(
+                        href="javascript:;"
+                        class="badge badge-success"
+                        data-status="active"
+                      ) Active
+                    else
+                      a(
+                        href="javascript:;"
+                        class="badge badge-danger"
+                        data-status="inactive"
+                      ) Inactive
+                  td(class='text-center align-middle')
+                    a(
+                      class="btn btn-secondary btn-sm"
+                      href=`/${prefixAdmin}/account/detail/${record.id}`
+                    ) Detail
+                    a(
+                      class="btn btn-warning btn-sm ml-1"
+                      href=`/${prefixAdmin}/account/edit/${record.id}`
+                    ) Edit
+                    button(
+                      class="btn btn-danger btn-sm ml-1"
+                    ) Delete
+

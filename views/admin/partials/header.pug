@@ -4,3 +4,16 @@ header.header
             .col-3 
                 .inner-logo 
                     a(href=`/${prefixAdmin}/dashboard`) ADMIN
+            
+
+            .col-9 
+                div(class="text-right")
+                    if(user)
+                        a(
+                            href=`/${prefixAdmin}/my-account`
+                            class="btn btn-primary btn-sm"
+                        ) #{user.fullName}
+                    a(
+                        href=`/${prefixAdmin}/auth/logout`
+                        class="btn btn-danger btn-sm"
+                    ) Logout

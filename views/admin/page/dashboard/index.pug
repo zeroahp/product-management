@@ -1,3 +1,55 @@
 extends ../../layout/default.pug
 block main   
-    h1 Trang Tổng Quan
+    h1 Dashboard
+
+    .row.mt-4 
+        .col-12 
+            .card-header Account Information 
+            .card-body 
+                if(user.avatar)
+                    img(
+                        src=user.avatar 
+                        style="height: 100px; margin-bottom: 15px;"
+                    )
+                if(user.fullName)
+                    p Full name: <b>#{user.fullName}</b>
+                if(user.email)
+                    p Email: <b>#{user.email}</b>
+                if(user.phone)
+                    p Phone: <b>#{user.phone}</b>
+                if(role.title)
+                    p Role permission: <b>#{role.title}</b>
+
+
+            .col-6 
+                .card.mb-4 
+                    .card-header Product categories
+                    .card-body
+                        p Quantity <b>#{statistic.categoryProduct.total}</b>
+                        p Active <b>#{statistic.categoryProduct.active}</b>
+                        p Inactive <b>#{statistic.categoryProduct.inactive}</b>
+
+            .col-6 
+                .card.mb-4 
+                    .card-header Products
+                    .card-body
+                        p Quantity <b>#{statistic.product.total}</b>
+                        p Active <b>#{statistic.product.active}</b>
+                        p Inactive <b>#{statistic.product.inactive}</b>
+
+            .col-6 
+                .card.mb-4 
+                    .card-header Admin accounts
+                    .card-body
+                        p Quantity <b>#{statistic.account.total}</b>
+                        p Active <b>#{statistic.account.active}</b>
+                        p Inactive <b>#{statistic.account.inactive}</b>
+
+            .col-6 
+                .card.mb-4 
+                    .card-header Client accounts
+                    .card-body
+                        p Quantity <b>#{statistic.user.total}</b>
+                        p Active <b>#{statistic.user.active}</b>
+                        p Inactive <b>#{statistic.user.inactive}</b>
+            

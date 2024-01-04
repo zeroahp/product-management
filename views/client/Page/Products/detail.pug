@@ -1,39 +1,63 @@
 extends ../../Layout/default.pug
+include ../../mixins/box-head.pug
+include ../../mixins/alert.pug
 
 block main
-    div(class="p-2 mb-2 bg-warning text-white") 
-        h2 Product Detail
-    div(class="border border-secondary") 
-        if(product.title)
-            h3(class="mb-4 mt-4 ml-4") #{product.title}
-        
-        if(product.price)
-            div(class="mb-4 ml-4") Price: <b>#{product.price}</b>$
-        
-        if(product.discountPercentage)
-            div(class="mb-4 ml-4") Discount: <b>#{product.discountPercentage}</b>
+    +alert-success(4000)
+    .product-detail 
+        .container.my-5 
+            .row 
+                .col-6 
+                    .inner-thumb 
+                        img(
+                            class="ml-4 mb-4 rounded-sm"
+                            src=product.thumbnail
+                            style="width: 200px"
+                        )
+                .col-6 
+                    h1(class="inner-title") #{product.title}
 
-        if(product.stock)
-            div(class="mb-4 ml-4") Discount: <b>#{product.stock}</b>
+                    if (product.category)
+                        div(class="inner-category")
+                        span Category: 
+                        a(href=`/products/${product.category.slug}`) #{product.category.title}
 
-        if (product.thumbnail)
-            div(class="mb-4 ml-4")
-            img(
-                class="ml-4 mb-4 rounded-sm"
-                src=product.thumbnail
-                style="width: 200px"
-            )
+                    if (product.priceNew)
+                        div(class="inner-price-new") #{product.priceNew}$ 
 
-        if (product.status)
-            div(class="mb-4 ml-4")
-                span Filter: 
-                if (product.status === "active")
-                    span(class="badge badge-success") Active
-                else
-                    span(class="badge badge-danger") Inctive
+                    //- if (product.price)
+                    //-     div(class="inner-price-old") #{product.price}$
 
-        if (product.position)
-            div(class="mb-4 ml-4") Position: <b>#{product.position}</b>
+                    if (product.discountPercentage)
+                        div(class="inner-percent") Sale off to <span>#{product.discountPercentage}%</span>
 
-        if (product.description)
-            div(class="mb-4 ml-4 mr-1") Description: #{product.description}
+                    if (product.stock)
+                        div(class="inner-stock") Stock: <span>#{product.stock}</span> products
+
+                    form(
+                        action=`/cart/add/${product.id}`
+                        method="POST"
+                    )
+                        input(
+                        class="form-control mb-2"
+                        type="number"
+                        name="quantity"
+                        value="1"
+                        min="1"
+                        max=product.stock
+                        )
+                        button(
+                        type="submit"
+                        class="btn btn-success btn-block"
+                        ) Add to cart
+
+                hr
+
+                .container.my-5
+                .row
+                    .col-12
+                    +box-head("Product description")
+                    .inner-desc !{product.description}
+
+
+                

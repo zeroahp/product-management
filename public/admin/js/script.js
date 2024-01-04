@@ -53,7 +53,6 @@ if(pagination.length > 0){
     pagination.forEach(button => {
         button.addEventListener("click", () => {
             const page = button.getAttribute("button-pagination");
-            console.log(page);
             url.searchParams.set("page", page);
 
             window.location.href = url.href;
@@ -91,9 +90,8 @@ if(changStatus.length > 0){
 // End change-status
 
 
-// // show alert
+// show alert
 const showAlert = document.querySelector("[show-alert]");
-console.log(showAlert);
 if(showAlert){
     const time = parseInt(showAlert.getAttribute("data-time")) || 3000;
     const closeAlert = showAlert.querySelector("[close-alert]");
@@ -217,7 +215,6 @@ if(upload){
     const imagePreview = upload.querySelector("[upload-image-preview]");
 
     imageInput.addEventListener("change", (e) => {
-        console.log(e.target.files);
 
         if(e.target.files.length){
 

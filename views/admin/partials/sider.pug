@@ -2,8 +2,21 @@
   .inner-menu
     ul 
       li
-        a(href=`/${prefixAdmin}/dashboard`) Tổng quan
+        a(href=`/${prefixAdmin}/dashboard`) Dashboard
+      if(role.permission.includes("products-category_view"))
+        li
+          a(href=`/${prefixAdmin}/category`) Product Category
+      if(role.permission.includes("products_view"))
+        li
+          a(href=`/${prefixAdmin}/products`) Product
+      if(role.permission.includes("roles_view"))
+        li
+          a(href=`/${prefixAdmin}/role`) Role Permission
+      if(role.permission.includes("roles_permission"))
+        li
+          a(href=`/${prefixAdmin}/role/permission`) Permission
+      if(role.permission.includes("account_view"))
+        li
+          a(href=`/${prefixAdmin}/account`) Account
       li
-        a(href=`/${prefixAdmin}/category`) Danh mục sản phẩm
-      li
-        a(href=`/${prefixAdmin}/products`) Sản phẩm
+          a(href=`/${prefixAdmin}/setting/general`) Setting General

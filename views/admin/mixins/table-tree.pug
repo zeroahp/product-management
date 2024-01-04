@@ -36,17 +36,29 @@ mixin table-tree(items, level = 1)
                     ) Inactive
             td
                 a(
-                    href=`/${prefixAdmin}/products/detail/${item.id}`
+                    href=`/${prefixAdmin}/category/detail/${item.id}`
                     class="btn btn-info btn-sm"
                 ) Detail
-                a(
-                    href=`/${prefixAdmin}/products/edit/${item.id}`
-                    class="btn btn-warning btn-sm"
-                ) Edit
-                button(
-                    class="btn btn-danger btn-sm ml-1"
-                    button-delete
-                    data-id=item.id
-                ) Delete
+                if(role.permission.includes("products-category_edit"))
+
+                    a(
+                        href=`/${prefixAdmin}/category/edit/${item.id}`
+                        class="btn btn-warning btn-sm"
+                    ) Edit
+            
+                if(role.permission.includes("products-category_delete"))
+                    button(
+                        class="btn btn-danger btn-sm ml-1"
+                        button-delete
+                        data-id=item.id
+                    ) Delete    
+
+
+    form(
+            id="form-delete-item"
+            method="POST"
+            action="" 
+            data-path=`/${prefixAdmin}/products/delete`
+        )                               
         if item.children && item.children.length > 0
             +table-tree(item.children, level + 1)

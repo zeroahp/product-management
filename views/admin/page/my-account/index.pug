@@ -1,0 +1,31 @@
+extends ../../layout/default.pug
+
+block main 
+    h1(class="mb-4") Personal Information 
+
+    if (user.avatar)
+        img(src=user.avatar width="150px" class="mb-3")
+    else
+        img(src="/admin/images/avatar.png" width="150px" class="mb-3")
+
+    if(user.fullName)
+        p Full name: <b>#{user.fullName}</b>
+    
+    if(user.email)
+        p Email: <b>#{user.email}</b>
+
+    if(user.phone)
+        p Phone number: <b>#{user.phone}</b>
+
+    p 
+        span Status
+        span 
+            <b>#{user.status === "active" ? "Active" : "Inactive"}</b>
+
+    if(role.title)
+        p Permission: <b>#{role.title}</b>
+
+    a(
+        href=`/${prefixAdmin}/my-account/edit`
+        class="btn btn-primary"
+    ) Edit information

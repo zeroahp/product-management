@@ -1,8 +1,6 @@
 //nhúng thư viện Express
 const express = require('express');
-
 const path = require('path');
-
 //[GET] => [Patch]
 // override with POST having ?_method=PATCH
 const methodOverride = require('method-override')
@@ -12,6 +10,12 @@ const bodyParser = require('body-parser')
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 
+//http
+const http = require("http");
+//socket.io
+const { Server } = require("socket.io");
+
+const moment = require("moment");
 //dotenv
 require("dotenv").config();
 
@@ -29,6 +33,7 @@ const systemConfig = require("./config/system");
 const app = express();
 //Goi dotenv
 const port = process.env.PORT;
+
 // alert express-flash
 const flash = require('express-flash');
 app.set("views",`${__dirname}/views`);
@@ -39,6 +44,11 @@ app.use(methodOverride('_method'))
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
+
+// tao socket.io
+const server = http.createServer(app);
+const io = new Server(server)
+global._io = io; //tao bien toan cuc
 
 //express-flash
 app.use(cookieParser('KWJFKWEIFHW'));
@@ -54,11 +64,25 @@ app.use(
 
 //variable local
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
+app.locals.moment = moment;
 
 //Goi Route
 routeClient(app);
 routeAdmin(app);
 
-app.listen(port, () => {
+//den cac duong dan khoong hop le
+app.get("*", (req, res) => {
+    res.render("client/Page/errors/404", {
+        pageTitle: "404 Not Found"
+    });
+});
+
+
+// app.listen(port, () => {
+//     console.log(`App listening on port ${port}`);
+// })
+
+//socket.io, express,..
+server.listen(port, () => {
     console.log(`App listening on port ${port}`);
 })
