@@ -18,7 +18,8 @@ block main
                 .inner-content 
                   | #{chat.content}
          
-          
+            div(class="inner-list-typing")
+           
           .inner-foot 
             form(
                 class="inner-form"
@@ -29,7 +30,10 @@ block main
                 placeholder="Message..."
                 name="content"
               )
-
+              span(class="button-icon btn btn-light") 
+                i.fa-regular.fa-face-smile
               button 
                 i.fa-solid.fa-paper-plane
           
+    div(class="tooltip" role="tooltip")
+      emoji-picker
