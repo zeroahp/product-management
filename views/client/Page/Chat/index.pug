@@ -15,9 +15,13 @@ block main
               div(class=(chat.infoUser.id == user.id ? "inner-outgoing" : "inner-incoming"))
                 if(chat.infoUser.id != user.id)
                   .inner-name #{chat.infoUser.fullName}
-                .inner-content 
-                  | #{chat.content}
-         
+                if(chat.content)
+                  .inner-content 
+                    | #{chat.content}
+                if(chat.images)
+                  .inner-images 
+                    each item in chat.images
+                      img(src=item, alt="image", width="300px")         
             div(class="inner-list-typing")
            
           .inner-foot 
@@ -30,6 +34,8 @@ block main
                 placeholder="Message..."
                 name="content"
               )
+              div(class="custom-file-container" data-upload-id="upload-image")
+
               span(class="button-icon btn btn-light") 
                 i.fa-regular.fa-face-smile
               button 
@@ -37,3 +43,7 @@ block main
           
     div(class="tooltip" role="tooltip")
       emoji-picker
+
+    
+
+

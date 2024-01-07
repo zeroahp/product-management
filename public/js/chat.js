@@ -8,10 +8,18 @@ if (formSendData) {
     formSendData.addEventListener("submit", (e) => {
         e.preventDefault();
         const content = e.target.elements.content.value;
+        const images = upload.cachedFileArray || [];
+        if (content || images.length > 0) {
 
-        if (content) {
-            socket.emit("CLIENT_SEND_MESSAGE", content);
+            console.log(images);
+            socket.emit("CLIENT_SEND_MESSAGE", {
+                content: content,
+                images: images
+            });
+
             e.target.elements.content.value = "";
+            upload.resetPreviewPanel(); // clear all selected images
+            socket.emit("CLIENT_SEND_TYPING", "hidden");
         }
     })
 }
@@ -19,6 +27,15 @@ if (formSendData) {
 // END CLIENT_SEND_MESSAGE
 
 // SERVER_RETURN_MESSAGE
+
+//send images
+const upload = new FileUploadWithPreview.FileUploadWithPreview('upload-image', {
+    multiple: true,
+    maxFileCount: 6
+});
+//end send image
+
+
 socket.on("SERVER_RETURN_MESSAGE", (data) => {
     const myId = document.querySelector("[my-id]").getAttribute("my-id");
     const body = document.querySelector(".chat .inner-body");
@@ -27,6 +44,8 @@ socket.on("SERVER_RETURN_MESSAGE", (data) => {
     const div = document.createElement("div");
 
     let htmlFullName = "";
+    let htmlContent = "";
+    let htmlImages = "";
 
     if (myId == data.userId) {
         div.classList.add("inner-outgoing");
@@ -35,9 +54,26 @@ socket.on("SERVER_RETURN_MESSAGE", (data) => {
         htmlFullName = `<div class="inner-name">${data.fullName}</div>`
     }
 
+    if (data.content) {
+        htmlContent = `
+            <div class="inner-content">${data.content}</div>        
+        `;
+    }
+
+    if(data.images) {
+        htmlImages += `<div class="inner-images">`;
+        for (const item of data.images) {
+            htmlImages += `
+                <img src=${item} alt="image">`;
+        }
+        htmlImages += `</div>`;
+
+    }
+
     div.innerHTML = `
         ${htmlFullName}
-        <div class="inner-content">${data.content}</div>
+        ${htmlContent}
+        ${htmlImages}
     `;
 
     body.insertBefore(div, boxTyping);

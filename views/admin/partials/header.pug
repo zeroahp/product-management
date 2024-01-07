@@ -8,12 +8,12 @@ header.header
 
             .col-9 
                 div(class="text-right")
-                    if(user)
+                    if(user.role_id)
                         a(
                             href=`/${prefixAdmin}/my-account`
                             class="btn btn-primary btn-sm"
                         ) #{user.fullName}
-                    a(
-                        href=`/${prefixAdmin}/auth/logout`
-                        class="btn btn-danger btn-sm"
-                    ) Logout
+                        a(
+                            href=`/${prefixAdmin}/auth/logout`
+                            class="btn btn-danger btn-sm"
+                        ) Logout

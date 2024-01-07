@@ -365,9 +365,9 @@ display: block;
 }
 
 .chat .inner-body .inner-images img {
-  width: 80px;
-  height: 80px;
-  object-fit: contain;
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
   background: #efefef;
   padding: 10px;
   margin: 0 5px 5px 0;

@@ -36,14 +36,13 @@ block main
                 .row 
                     .col-8
                         +changeMultil(`/${prefixAdmin}/products/change-multi?_method=PATCH`)
-                    .col-4
-                        if(role.permission.includes("products_create"))
+                    if(role.permission.includes("products_create"))                   
+                        .col-4
                             a(
                                 href=`/${prefixAdmin}/products/create`
                                 class="btn btn-outline-success"
                             ) + Add Product
-                        else    
-                            h1 You are not permission
+                       
         table(
             checkbox-multi
             class="table table-hover table-sm "

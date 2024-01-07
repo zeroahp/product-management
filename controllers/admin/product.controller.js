@@ -215,27 +215,32 @@ module.exports.createProduct = async(req,res) => {
 
     const permissions = res.locals.role.permission;
 
-    req.body.price = parseInt(req.body.price);
-    req.body.discountPercentage = parseInt(req.body.discountPercentage);
-    req.body.stock = parseInt(req.body.stock);
-
-    if(req.body.position === ""){
-        const countProducts = await Product.countDocuments();
-        req.body.position = countProducts + 1;
+    if(permissions.includes("products_create")){
+        req.body.price = parseInt(req.body.price);
+        req.body.discountPercentage = parseInt(req.body.discountPercentage);
+        req.body.stock = parseInt(req.body.stock);
+    
+        if(req.body.position === ""){
+            const countProducts = await Product.countDocuments();
+            req.body.position = countProducts + 1;
+        }else{
+            req.body.position = parseInt(req.body.position);
+        }
+    
+        req.body.createBy = {
+            account_id: res.locals.user.id,
+        };
+    
+        req.flash('success', `Create status success!`);
+        const product = new Product(req.body);
+    
+        await product.save();
+        res.redirect(`/${systemConfig.prefixAdmin}/products`);
+    
     }else{
-        req.body.position = parseInt(req.body.position);
+        console.log("khong co quyen");
     }
-
-    req.body.createBy = {
-        account_id: res.locals.user.id,
-    };
-
-    req.flash('success', `Create status success!`);
-    const product = new Product(req.body);
-
-    await product.save();
-    res.redirect(`/${systemConfig.prefixAdmin}/products`);
-
+   
 }
 //End create
 

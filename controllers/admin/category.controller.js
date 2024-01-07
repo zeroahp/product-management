@@ -35,7 +35,9 @@ module.exports.create = async (req, res) => {
 }
 
 module.exports.createPost = async (req, res) => {
+    const permission = res.locals.role.permission;
 
+    if (permission.includes("products-category_create")) {
         if (req.body.position === "") {
             const countCategory = await Category.countDocuments();
             req.body.position = countCategory + 1;
@@ -47,7 +49,11 @@ module.exports.createPost = async (req, res) => {
         const record = new Category(req.body);
         await record.save();
         res.redirect(`/${systemConfig.prefixAdmin}/category`);
-   
+
+    } else {
+        console.log("not permission!");
+    }
+
 }
 
 // edit
@@ -96,15 +102,16 @@ module.exports.editProduct = async (req, res) => {
 //delete
 module.exports.deleteCategory = async (req, res) => {
     const id = req.params.id;
-    await Product.updateOne({ _id: id}, 
-        {
-            deleted: true,
-            deletedBy:{
-                account_id: res.locals.user.id,
-                deletedAt: new Date()
-            }
-            
-        }); // xoa mềm
+    await Product.updateOne({
+        _id: id
+    }, {
+        deleted: true,
+        deletedBy: {
+            account_id: res.locals.user.id,
+            deletedAt: new Date()
+        }
+
+    }); // xoa mềm
     res.redirect("back");
 }
 

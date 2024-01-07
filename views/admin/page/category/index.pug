@@ -7,14 +7,13 @@ block main
         h1(class="mb-4") Trang Danh Mục Sản Phẩm
 
         //- div #{record}
-        .card.mb-3 
-            .card-header List
-            .card-body
-                .row
-                    .col-6
-                    .col-4.text-right 
-                        
-                        if(role.permission.includes("products-category_create"))
+        if(role.permission.includes("products-category_create"))
+            .card.mb-3 
+                .card-header List
+                .card-body
+                    .row
+                        .col-6
+                        .col-4.text-right 
                             a(
                                 href=`/${prefixAdmin}/category/create`
                                 class="btn btn-outline-success"
