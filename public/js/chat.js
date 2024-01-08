@@ -78,6 +78,12 @@ socket.on("SERVER_RETURN_MESSAGE", (data) => {
 
     body.insertBefore(div, boxTyping);
     body.scrollTop = body.scrollHeight;
+
+    // preview image
+    const zoomImage = div.querySelector(".inner-images");
+    if(zoomImage){
+        const zoom = new Viewer(zoomImage);
+    }
 })
 //END SERVER_RETURN_MESSAGE
 
@@ -169,3 +175,11 @@ if (bodyChat) {
     bodyChat.scrollTop = bodyChat.scrollHeight;
 }
 //End Scroll chat to bottom
+
+
+//Preview image
+const chatBody = document.querySelector(".chat .inner-body");
+if(chatBody){
+    const zoomImage = new Viewer(chatBody);
+}
+//End preview image

@@ -365,8 +365,8 @@ display: block;
 }
 
 .chat .inner-body .inner-images img {
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
   object-fit: cover;
   background: #efefef;
   padding: 10px;
@@ -383,6 +383,7 @@ display: block;
   margin: 0 0 5px 5px;
 }
 
+/* inner-preview-images */
 .chat .inner-preview-images {
   position: relative;
 }
@@ -401,16 +402,12 @@ display: block;
   border-radius: 0;
 }
 
-.chat .inner-preview-images .image-preview {
-  height: auto;
-  padding: 0;
-  border-radius: 0;
-}
-
 .chat .inner-preview-images .image-preview-item {
   width: 90px;
   background-size: contain;
 }
+/* end inner-preview-images */
+
 
 /* emoji-picker */
 .tooltip {
@@ -470,3 +467,4 @@ display: block;
 }
 
 /*end CHAT */
+

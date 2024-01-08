@@ -23,6 +23,10 @@ block main
                     each item in chat.images
                       img(src=item, alt="image", width="300px")         
             div(class="inner-list-typing")
+
+          .inner-preview-images 
+            div(class="custom-file-container" data-upload-id="upload-image")
+
            
           .inner-foot 
             form(
@@ -34,7 +38,12 @@ block main
                 placeholder="Message..."
                 name="content"
               )
-              div(class="custom-file-container" data-upload-id="upload-image")
+
+              label(
+                for="file-upload-with-preview-upload-image"
+                class="btn btn-light mx-2 mb-0"  
+              ) 
+                <i class="fa-regular fa-image"></i>
 
               span(class="button-icon btn btn-light") 
                 i.fa-regular.fa-face-smile

@@ -31,7 +31,8 @@
     "pug": "^3.0.2",
     "socket.io": "^4.7.3",
     "streamifier": "^0.1.1",
-    "tinymce": "^6.7.0"
+    "tinymce": "^6.7.0",
+    "viewerjs": "^1.11.6"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
